@@ -1,3 +1,4 @@
+using ElasticsearchCrud.Domain;
 using ElasticsearchCrud.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,5 +36,16 @@ namespace ElasticsearchCrud.Controllers
             var result = await _elasticRepository.GetMovieById(id);
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertMovie([FromBody] Movie movie)
+        {
+            var result = await _elasticRepository.InsertMovie(movie);
+
+            if (result) return Ok(new { Result = "Movie inserted with successfull" });
+
+            throw new Exception("Something wrong");
+        }
+
     }
 }

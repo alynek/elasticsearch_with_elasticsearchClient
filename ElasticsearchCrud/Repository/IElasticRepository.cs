@@ -8,5 +8,6 @@ namespace ElasticsearchCrud.Repository
         Task<Movie> GetMovieById(string id);
         Task<IEnumerable> GetAllMoviesByTitleField(string titleField);
         Task<IEnumerable> GetAllMovies();
+        Task<bool> InsertMovie(Movie movie);
     }
 }
