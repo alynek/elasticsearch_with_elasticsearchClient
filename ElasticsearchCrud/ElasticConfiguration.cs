@@ -1,6 +1,4 @@
-﻿using Elastic.Clients.Elasticsearch;
-using Elastic.Transport;
-using Microsoft.Extensions.Configuration;
+﻿using Nest;
 
 namespace ElasticsearchCrud
 {
@@ -8,13 +6,12 @@ namespace ElasticsearchCrud
     {
         public static void AddElasticsearch(this IServiceCollection services, IConfiguration configuration)
         {
-            ElasticsearchClientSettings settings = 
-                new ElasticsearchClientSettings(new Uri(configuration["ElasticsearchSettings:uri"]))
-            .Authentication(new BasicAuthentication(configuration["ElasticsearchSettings:login"], configuration["ElasticsearchSettings:password"]));
+            var settings = new ConnectionSettings(new Uri(configuration["ElasticsearchSettings:uri"]))
+            .BasicAuthentication(configuration["ElasticsearchSettings:login"], configuration["ElasticsearchSettings:password"]);
 
-            var client = new ElasticsearchClient(settings);
+            var client = new ElasticClient(settings);
 
-            services.AddSingleton(client);
+            services.AddSingleton<IElasticClient>(client);
         }
     }
 }
